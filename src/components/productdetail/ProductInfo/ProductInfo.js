@@ -7,6 +7,7 @@ import AddToCartForm from '../AddToCartForm/AddToCartForm.vue';
 import BasePrice from '../../common/BasePrice/BasePrice.vue';
 import VariantSelector from '../VariantSelector/VariantSelector.vue';
 import { locale } from '../../common/shared';
+import ThreekitViewer from '../ThreekitViewer/ThreekitViewer.vue';
 
 export default {
   props: {
@@ -22,6 +23,7 @@ export default {
     AddToCartForm,
     BasePrice,
     VariantSelector,
+    ThreekitViewer,
   },
   mixins: [productMixin],
   data: () => ({
@@ -30,6 +32,14 @@ export default {
   computed: {
     matchingVariant() {
       return this.currentProduct.variant || {};
+    },
+    isThreekit() {
+      const attribute = this.currentProduct.variant.attributesRaw.find((attr) => /threekitId/gi.test(attr.name));
+      return attribute ? attribute.value && true : false;
+    },
+    threekitId() {
+      const attribute = this.currentProduct.variant.attributesRaw.find((attr) => /threekitId/gi.test(attr.name));
+      return attribute ? attribute.value : false;
     },
   },
   apollo: {
@@ -52,6 +62,10 @@ export default {
                        ...printPrice
                       }
                     }
+                  }
+                  attributesRaw {
+                    name
+                    value
                   }
                 }
               }

@@ -6,7 +6,8 @@
   <div class="row" v-if="product">
     <div class="col-lg-5">
       <div class="product-details-tab">
-        <ProductGallery :sku="sku" />
+        <ProductGallery :sku="sku" v-if="!isThreekit"/>
+        <ThreekitViewer :threekitId="threekitId" v-if="isThreekit"/>
       </div>
     </div>
     <div class="col-lg-7">
